@@ -107,13 +107,13 @@ import org.mule.runtime.core.api.Event;
 import org.mule.runtime.core.api.MuleContext;
 import org.mule.runtime.core.api.construct.Flow;
 import org.mule.runtime.core.api.exception.MessagingException;
+import org.mule.runtime.core.api.policy.PolicyParametrization;
+import org.mule.runtime.core.api.policy.PolicyPointcut;
 import org.mule.runtime.core.api.registry.MuleRegistry;
 import org.mule.runtime.core.api.util.FileUtils;
 import org.mule.runtime.core.api.util.IOUtils;
 import org.mule.runtime.core.api.util.concurrent.Latch;
 import org.mule.runtime.core.internal.config.StartupContext;
-import org.mule.runtime.core.api.policy.PolicyParametrization;
-import org.mule.runtime.core.api.policy.PolicyPointcut;
 import org.mule.runtime.core.registry.SpiServiceRegistry;
 import org.mule.runtime.deployment.model.api.application.Application;
 import org.mule.runtime.deployment.model.api.application.ApplicationStatus;
@@ -154,6 +154,7 @@ import org.mule.tck.probe.file.FileExists;
 import org.mule.tck.util.CompilerUtils.ExtensionCompiler;
 import org.mule.tck.util.CompilerUtils.JarCompiler;
 import org.mule.tck.util.CompilerUtils.SingleClassCompiler;
+import org.mule.test.runner.classloader.TestContainerModuleDiscoverer;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -4154,7 +4155,7 @@ public class DeploymentServiceTestCase extends AbstractMuleTestCase {
 
     mainFlow.process(Event.builder(DefaultEventContext.create(mainFlow, TEST_CONNECTOR_LOCATION))
         .message(muleMessage)
-        .flow(mainFlow).build());
+        .build());
   }
 
   private void assertZombieApplication(String appId) {

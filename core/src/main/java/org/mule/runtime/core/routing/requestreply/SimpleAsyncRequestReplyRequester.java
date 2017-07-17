@@ -15,7 +15,6 @@ import org.mule.runtime.api.lifecycle.Startable;
 import org.mule.runtime.api.lifecycle.Stoppable;
 import org.mule.runtime.core.api.Event;
 import org.mule.runtime.core.api.MuleContext;
-import org.mule.runtime.core.api.construct.FlowConstructAware;
 import org.mule.runtime.core.api.context.MuleContextAware;
 import org.mule.runtime.core.api.processor.Processor;
 import org.mule.runtime.core.api.source.MessageSource;
@@ -54,9 +53,6 @@ public class SimpleAsyncRequestReplyRequester extends AbstractAsyncRequestReplyR
   @Override
   public void start() throws MuleException {
     if (replyMessageSource != null) {
-      if (replyMessageSource instanceof FlowConstructAware) {
-        ((FlowConstructAware) replyMessageSource).setFlowConstruct(this.flowConstruct);
-      }
       if (replyMessageSource instanceof Initialisable) {
         ((Initialisable) replyMessageSource).initialise();
       }
@@ -65,9 +61,6 @@ public class SimpleAsyncRequestReplyRequester extends AbstractAsyncRequestReplyR
       }
     }
     if (requestMessageProcessor != null) {
-      if (requestMessageProcessor instanceof FlowConstructAware) {
-        ((FlowConstructAware) requestMessageProcessor).setFlowConstruct(this.flowConstruct);
-      }
       if (requestMessageProcessor instanceof Initialisable) {
         ((Initialisable) requestMessageProcessor).initialise();
       }

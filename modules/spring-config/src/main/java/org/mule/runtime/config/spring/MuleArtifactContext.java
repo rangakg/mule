@@ -213,7 +213,7 @@ public class MuleArtifactContext extends AbstractXmlApplicationContext {
         new BeanDefinitionFactory(componentBuildingDefinitionRegistry, muleContext.getErrorTypeRepository());
 
     createApplicationModel();
-    determineIfOnlyNewParsingMechanismCanBeUsed();
+    validateAllConfigElementHaveParsers();
   }
 
   protected XmlConfigurationDocumentLoader newXmlConfigurationDocumentLoader() {
@@ -230,7 +230,7 @@ public class MuleArtifactContext extends AbstractXmlApplicationContext {
     return new XmlApplicationParser(customRegistry, pluginsClassLoaders);
   }
 
-  private void determineIfOnlyNewParsingMechanismCanBeUsed() {
+  private void validateAllConfigElementHaveParsers() {
     applicationModel.executeOnEveryComponentTree(componentModel -> {
       Optional<ComponentIdentifier> parentIdentifierOptional = ofNullable(componentModel.getParent())
           .flatMap(parentComponentModel -> ofNullable(parentComponentModel.getIdentifier()));

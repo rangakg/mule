@@ -8,7 +8,6 @@ package org.mule.runtime.core.processor;
 
 import org.mule.runtime.api.lifecycle.Lifecycle;
 import org.mule.runtime.api.meta.AnnotatedObject;
-import org.mule.runtime.core.api.construct.FlowConstructAware;
 import org.mule.runtime.core.api.context.MuleContextAware;
 import org.mule.runtime.core.api.processor.Processor;
 
@@ -18,7 +17,7 @@ import java.util.List;
  * An object that owns message processors and delegates startup/shutdown events to them.
  */
 public abstract class AbstractMessageProcessorOwner extends AbstractMuleObjectOwner<Processor>
-    implements Lifecycle, MuleContextAware, FlowConstructAware, AnnotatedObject {
+    implements Lifecycle, MuleContextAware, AnnotatedObject {
 
   @Override
   protected List<Processor> getOwnedObjects() {

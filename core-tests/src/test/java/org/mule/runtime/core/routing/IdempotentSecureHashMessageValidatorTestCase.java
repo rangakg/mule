@@ -43,7 +43,6 @@ public class IdempotentSecureHashMessageValidatorTestCase extends AbstractMuleCo
     Flow flow = getTestFlow(muleContext);
 
     secureHash = new IdempotentSecureHashMessageValidator();
-    secureHash.setFlowConstruct(flow);
     secureHash.setStorePrefix("foo");
     secureHash.setObjectStore(new InMemoryObjectStore<>());
     secureHash.setMuleContext(muleContext);

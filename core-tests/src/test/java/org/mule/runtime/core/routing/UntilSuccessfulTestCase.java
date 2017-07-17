@@ -19,21 +19,13 @@ import static org.mockito.Mockito.mock;
 import static org.mule.runtime.api.message.Message.of;
 import static org.mule.runtime.api.meta.AbstractAnnotatedObject.LOCATION_KEY;
 import static org.mule.runtime.core.api.transaction.TransactionCoordination.getInstance;
-import static org.mule.tck.MuleTestUtils.getTestFlow;
-import static org.mule.tck.junit4.AbstractReactiveProcessorTestCase.Mode.BLOCKING;
-import static org.mule.tck.junit4.AbstractReactiveProcessorTestCase.Mode.NON_BLOCKING;
-
 import org.mule.runtime.api.exception.MuleException;
-import org.mule.runtime.api.tx.TransactionException;
 import org.mule.runtime.core.api.Event;
 import org.mule.runtime.core.api.exception.MessagingException;
 import org.mule.runtime.core.api.processor.Processor;
 import org.mule.runtime.core.api.retry.policy.RetryPolicyExhaustedException;
 import org.mule.runtime.core.api.transaction.Transaction;
-import org.mule.runtime.core.api.transaction.TransactionCoordination;
-import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.tck.junit4.AbstractMuleContextTestCase;
-import org.mule.tck.junit4.AbstractReactiveProcessorTestCase;
 
 import java.io.ByteArrayInputStream;
 import java.util.Collection;
@@ -106,7 +98,6 @@ public class UntilSuccessfulTestCase extends AbstractMuleContextTestCase {
   private UntilSuccessful buildUntilSuccessful(Long millisBetweenRetries) throws Exception {
     UntilSuccessful untilSuccessful = new UntilSuccessful();
     untilSuccessful.setMuleContext(muleContext);
-    untilSuccessful.setFlowConstruct(getTestFlow(muleContext));
     untilSuccessful.setAnnotations(singletonMap(LOCATION_KEY, TEST_CONNECTOR_LOCATION));
     untilSuccessful.setMaxRetries(2);
 

@@ -10,11 +10,10 @@ import static java.util.Optional.empty;
 import static org.mule.runtime.api.i18n.I18nMessageFactory.createStaticMessage;
 import static org.mule.runtime.core.DefaultEventContext.child;
 import static org.mule.runtime.core.api.Event.builder;
-
+import org.mule.runtime.api.component.location.ComponentLocation;
 import org.mule.runtime.api.exception.MuleException;
-import org.mule.runtime.api.meta.AnnotatedObject;
 import org.mule.runtime.core.api.Event;
-import org.mule.runtime.core.api.construct.FlowConstruct;
+import org.mule.runtime.core.api.el.ExpressionManager;
 import org.mule.runtime.core.api.processor.Processor;
 
 import java.util.List;
@@ -28,20 +27,20 @@ import java.util.List;
  */
 public class FirstSuccessfulRoutingStrategy extends AbstractRoutingStrategy {
 
-  private FlowConstruct flowConstruct;
+  private ExpressionManager expressionManager;
+  private final ComponentLocation componentLocation;
   private String failureExpression;
   private RouteProcessor processor;
 
   /**
-   * @param flowConstruct
    * @param failureExpression Mule expression that validates if a {@link Processor} execution was successful or not.
    */
-  public FirstSuccessfulRoutingStrategy(final FlowConstruct flowConstruct, final String failureExpression,
-                                        RouteProcessor processor) {
-    super(flowConstruct.getMuleContext());
-    this.flowConstruct = flowConstruct;
+  public FirstSuccessfulRoutingStrategy(ExpressionManager expressionManager, final String failureExpression,
+                                        RouteProcessor processor, ComponentLocation componentLocation) {
     this.failureExpression = failureExpression;
     this.processor = processor;
+    this.componentLocation = componentLocation;
+    this.expressionManager = expressionManager;
   }
 
   @Override
@@ -62,8 +61,8 @@ public class FirstSuccessfulRoutingStrategy extends AbstractRoutingStrategy {
         } else if (returnEvent.getMessage() == null) {
           failed = true;
         } else {
-          failed = getMuleContext().getExpressionManager()
-              .evaluateBoolean(failureExpression, returnEvent, ((AnnotatedObject) flowConstruct).getLocation(), false, true);
+          failed = expressionManager
+              .evaluateBoolean(failureExpression, returnEvent, componentLocation, false, true);
         }
       } catch (Exception ex) {
         failed = true;

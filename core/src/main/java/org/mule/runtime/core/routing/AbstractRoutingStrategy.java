@@ -12,12 +12,16 @@ import static org.mule.runtime.core.api.util.StringMessageUtils.truncate;
 
 import org.mule.runtime.api.exception.MuleException;
 import org.mule.runtime.api.message.Message;
+import org.mule.runtime.api.transformation.TransformationService;
 import org.mule.runtime.core.api.DefaultMuleException;
+import org.mule.runtime.core.api.DefaultTransformationService;
 import org.mule.runtime.core.api.Event;
 import org.mule.runtime.core.api.MuleContext;
 import org.mule.runtime.core.api.connector.DispatchException;
 import org.mule.runtime.core.api.processor.Processor;
 import org.mule.runtime.core.api.routing.RoutingException;
+
+import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,17 +31,13 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractRoutingStrategy implements RoutingStrategy {
 
+  @Inject
+  private DefaultTransformationService transformationService;
+
   /**
    * logger used by this class
    */
   protected static transient Logger logger = LoggerFactory.getLogger(AbstractRoutingStrategy.class);
-
-  private final MuleContext muleContext;
-
-  public AbstractRoutingStrategy(final MuleContext muleContext) {
-    this.muleContext = muleContext;
-  }
-
 
   /**
    * Send message event to destination.
@@ -69,7 +69,7 @@ public abstract class AbstractRoutingStrategy implements RoutingStrategy {
         if (resultMessage != null) {
           try {
             logger.trace("Response payload: \n"
-                + truncate(muleContext.getTransformationService().getPayloadForLogging(resultMessage), 100, false));
+                + truncate(transformationService.getPayloadForLogging(resultMessage), 100, false));
           } catch (Exception e) {
             logger.trace("Response payload: \n(unable to retrieve payload: " + e.getMessage());
           }
@@ -95,16 +95,11 @@ public abstract class AbstractRoutingStrategy implements RoutingStrategy {
     return Event.builder(routedEvent).message(message).build();
   }
 
-  protected MuleContext getMuleContext() {
-    return muleContext;
-  }
-
   /**
    * Validates that the payload is not consumable so it can be copied.
    *
    * If validation fails then throws a MessagingException
    *
-   * @param event
    * @param message
    * @throws MuleException if the payload is consumable
    */

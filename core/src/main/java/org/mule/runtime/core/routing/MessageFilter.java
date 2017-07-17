@@ -6,26 +6,24 @@
  */
 package org.mule.runtime.core.routing;
 
-import org.mule.runtime.core.api.Event;
-import org.mule.runtime.core.api.MuleContext;
 import org.mule.runtime.api.exception.MuleException;
-import org.mule.runtime.core.api.construct.FlowConstruct;
-import org.mule.runtime.core.api.construct.FlowConstructAware;
-import org.mule.runtime.core.api.context.MuleContextAware;
-import org.mule.runtime.core.api.execution.LocationExecutionContextProvider;
 import org.mule.runtime.api.lifecycle.Disposable;
 import org.mule.runtime.api.lifecycle.Initialisable;
 import org.mule.runtime.api.lifecycle.InitialisationException;
 import org.mule.runtime.api.lifecycle.Lifecycle;
-import org.mule.runtime.core.api.lifecycle.LifecycleUtils;
 import org.mule.runtime.api.lifecycle.Startable;
 import org.mule.runtime.api.lifecycle.Stoppable;
+import org.mule.runtime.core.api.Event;
+import org.mule.runtime.core.api.MuleContext;
+import org.mule.runtime.core.api.config.i18n.CoreMessages;
+import org.mule.runtime.core.api.context.MuleContextAware;
+import org.mule.runtime.core.api.exception.MessagingException;
+import org.mule.runtime.core.api.execution.LocationExecutionContextProvider;
+import org.mule.runtime.core.api.lifecycle.LifecycleUtils;
 import org.mule.runtime.core.api.processor.InterceptingMessageProcessor;
 import org.mule.runtime.core.api.processor.Processor;
 import org.mule.runtime.core.api.routing.filter.Filter;
 import org.mule.runtime.core.api.routing.filter.FilterUnacceptedException;
-import org.mule.runtime.core.api.config.i18n.CoreMessages;
-import org.mule.runtime.core.api.exception.MessagingException;
 import org.mule.runtime.core.processor.AbstractFilteringMessageProcessor;
 
 import org.slf4j.Logger;
@@ -39,7 +37,7 @@ import org.slf4j.LoggerFactory;
  * <p/>
  * <b>EIP Reference:</b> <a href="http://www.eaipatterns.com/Filter.html">http://www.eaipatterns .com/Filter.html<a/>
  */
-public class MessageFilter extends AbstractFilteringMessageProcessor implements FlowConstructAware, Lifecycle {
+public class MessageFilter extends AbstractFilteringMessageProcessor implements Lifecycle {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(MessageFilter.class);
 
@@ -118,14 +116,6 @@ public class MessageFilter extends AbstractFilteringMessageProcessor implements 
     super.setMuleContext(context);
     if (!onUnacceptedFlowConstruct && unacceptedMessageProcessor instanceof MuleContextAware) {
       ((MuleContextAware) unacceptedMessageProcessor).setMuleContext(context);
-    }
-  }
-
-  @Override
-  public void setFlowConstruct(FlowConstruct flowConstruct) {
-    super.setFlowConstruct(flowConstruct);
-    if (!onUnacceptedFlowConstruct && unacceptedMessageProcessor instanceof FlowConstructAware) {
-      ((FlowConstructAware) unacceptedMessageProcessor).setFlowConstruct(flowConstruct);
     }
   }
 

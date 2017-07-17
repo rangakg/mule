@@ -9,14 +9,11 @@ package org.mule.runtime.core.routing;
 import static java.util.Objects.requireNonNull;
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
-
 import org.mule.runtime.api.exception.MuleException;
 import org.mule.runtime.api.lifecycle.InitialisationException;
 import org.mule.runtime.api.lifecycle.Lifecycle;
 import org.mule.runtime.api.meta.AbstractAnnotatedObject;
 import org.mule.runtime.core.api.MuleContext;
-import org.mule.runtime.core.api.construct.FlowConstruct;
-import org.mule.runtime.core.api.construct.FlowConstructAware;
 import org.mule.runtime.core.api.context.MuleContextAware;
 import org.mule.runtime.core.api.processor.MessageProcessorChain;
 
@@ -24,7 +21,7 @@ import org.mule.runtime.core.api.processor.MessageProcessorChain;
  * A holder for a pair of MessageProcessor and an expression.
  */
 public class MessageProcessorExpressionPair extends AbstractAnnotatedObject
-    implements FlowConstructAware, MuleContextAware, Lifecycle {
+    implements MuleContextAware, Lifecycle {
 
   private final String expression;
   private final MessageProcessorChain messageProcessor;
@@ -51,11 +48,6 @@ public class MessageProcessorExpressionPair extends AbstractAnnotatedObject
 
   // This class being just a logic-less tuple, it directly delegates lifecyle
   // events to its members, without any control.
-
-  @Override
-  public void setFlowConstruct(FlowConstruct flowConstruct) {
-    messageProcessor.setFlowConstruct(flowConstruct);
-  }
 
   @Override
   public void setMuleContext(MuleContext context) {

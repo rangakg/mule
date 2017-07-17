@@ -23,7 +23,6 @@ import static org.mule.runtime.core.api.construct.Flow.builder;
 import static org.mule.runtime.core.api.lifecycle.LifecycleUtils.initialiseIfNeeded;
 import static org.mule.runtime.core.api.processor.MessageProcessors.newChain;
 import static reactor.core.publisher.Mono.from;
-
 import org.mule.runtime.api.exception.MuleException;
 import org.mule.runtime.core.api.Event;
 import org.mule.runtime.core.api.EventContext;
@@ -137,7 +136,6 @@ public class AsyncDelegateMessageProcessorTestCase extends AbstractReactiveProce
     flow = builder("flow", muleContext).processingStrategyFactory(new BlockingProcessingStrategyFactory()).build();
     flow.initialise();
     flow.start();
-    messageProcessor.setFlowConstruct(flow);
 
     process();
   }
@@ -148,7 +146,6 @@ public class AsyncDelegateMessageProcessorTestCase extends AbstractReactiveProce
     flow = builder("flow", muleContext).processingStrategyFactory(new DirectProcessingStrategyFactory()).build();
     flow.initialise();
     flow.start();
-    messageProcessor.setFlowConstruct(flow);
 
     process();
   }
@@ -172,7 +169,6 @@ public class AsyncDelegateMessageProcessorTestCase extends AbstractReactiveProce
       throws Exception {
     AsyncDelegateMessageProcessor mp = new AsyncDelegateMessageProcessor(newChain(listener), "thread");
     mp.setAnnotations(singletonMap(LOCATION_KEY, TEST_CONNECTOR_LOCATION));
-    mp.setFlowConstruct(flowConstruct);
     initialiseIfNeeded(mp, true, muleContext);
     return mp;
   }

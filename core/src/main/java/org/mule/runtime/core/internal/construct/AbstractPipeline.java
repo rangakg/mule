@@ -17,7 +17,6 @@ import static org.mule.runtime.core.api.util.ExceptionUtils.updateMessagingExcep
 import static org.mule.runtime.core.internal.util.rx.Operators.requestUnbounded;
 import static reactor.core.Exceptions.propagate;
 import static reactor.core.publisher.Flux.from;
-
 import org.mule.runtime.api.exception.MuleException;
 import org.mule.runtime.api.lifecycle.LifecycleException;
 import org.mule.runtime.api.meta.AbstractAnnotatedObject;
@@ -32,6 +31,7 @@ import org.mule.runtime.core.api.construct.Pipeline;
 import org.mule.runtime.core.api.context.notification.PipelineMessageNotification;
 import org.mule.runtime.core.api.exception.MessagingException;
 import org.mule.runtime.core.api.exception.MessagingExceptionHandler;
+import org.mule.runtime.core.api.management.stats.FlowConstructStatistics;
 import org.mule.runtime.core.api.processor.InternalMessageProcessor;
 import org.mule.runtime.core.api.processor.MessageProcessorBuilder;
 import org.mule.runtime.core.api.processor.MessageProcessorChain;
@@ -47,6 +47,9 @@ import org.mule.runtime.core.processor.IdempotentRedeliveryPolicy;
 import org.mule.runtime.core.processor.chain.DefaultMessageProcessorChainBuilder;
 import org.mule.runtime.core.processor.strategy.DirectProcessingStrategyFactory;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -54,10 +57,6 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.function.Consumer;
 
 import org.reactivestreams.Publisher;
-
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-
 import reactor.core.publisher.Mono;
 
 /**
@@ -82,8 +81,8 @@ public abstract class AbstractPipeline extends AbstractFlowConstruct implements 
   public AbstractPipeline(String name, MuleContext muleContext, MessageSource source, List<Processor> processors,
                           Optional<MessagingExceptionHandler> exceptionListener,
                           Optional<ProcessingStrategyFactory> processingStrategyFactory, String initialState,
-                          int maxConcurrency) {
-    super(name, muleContext, exceptionListener, initialState);
+                          int maxConcurrency, FlowConstructStatistics flowConstructStatistics) {
+    super(name, muleContext, exceptionListener, initialState, flowConstructStatistics);
     this.source = source;
     this.processors = unmodifiableList(processors);
     this.maxConcurrency = maxConcurrency;
