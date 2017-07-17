@@ -84,8 +84,8 @@ public class DefaultRouterResultsHandlerTestCase extends AbstractMuleTestCase {
 
     // Because same event instance is returned rather than MessageCollection
     // don't copy invocation properties
-    assertThat(result.getVariableNames(), not(hasItem("key1")));
-    assertThat(result.getVariable("key2").getValue(), equalTo("value2"));
+    assertThat(result.getVariables().keySet(), not(hasItem("key1")));
+    assertThat(result.getVariables().get("key2").getValue(), equalTo("value2"));
 
     assertThat(result.getSession().getProperty("key"), equalTo("valueNEW"));
     assertThat(result.getSession().getProperty("key1"), equalTo("value1"));
@@ -124,10 +124,10 @@ public class DefaultRouterResultsHandlerTestCase extends AbstractMuleTestCase {
 
     // Because a new MuleMessageCollection is created, propagate properties from
     // original event
-    assertThat(result.getVariable("key1").getValue(), equalTo("value1"));
-    assertThat(result.getVariable("key1").getDataType(), equalTo(simpleDateType1));
-    assertThat(result.getVariable("key2").getValue(), equalTo("value2"));
-    assertThat(result.getVariable("key3").getValue(), equalTo("value3"));
+    assertThat(result.getVariables().get("key1").getValue(), equalTo("value1"));
+    assertThat(result.getVariables().get("key1").getDataType(), equalTo(simpleDateType1));
+    assertThat(result.getVariables().get("key2").getValue(), equalTo("value2"));
+    assertThat(result.getVariables().get("key3").getValue(), equalTo("value3"));
 
     // Root id
     assertThat(result.getCorrelationId(), equalTo(event1.getCorrelationId()));
@@ -154,8 +154,8 @@ public class DefaultRouterResultsHandlerTestCase extends AbstractMuleTestCase {
 
     // Because same event instance is returned rather than MessageCollection
     // don't copy invocation properties
-    assertThat(result.getVariableNames(), not(hasItem("key1")));
-    assertThat(result.getVariable("key2").getValue(), equalTo("value2"));
+    assertThat(result.getVariables().keySet(), not(hasItem("key1")));
+    assertThat(result.getVariables().get("key2").getValue(), equalTo("value2"));
   }
 
   @Test
@@ -177,8 +177,8 @@ public class DefaultRouterResultsHandlerTestCase extends AbstractMuleTestCase {
 
     // Because same event instance is returned rather than MessageCollection
     // don't copy invocation properties
-    assertThat(result.getVariableNames(), not(hasItem("key1")));
-    assertThat(result.getVariable("key2").getValue(), equalTo("value2"));
+    assertThat(result.getVariables().keySet(), not(hasItem("key1")));
+    assertThat(result.getVariables().get("key2").getValue(), equalTo("value2"));
   }
 
   @Test
@@ -217,9 +217,9 @@ public class DefaultRouterResultsHandlerTestCase extends AbstractMuleTestCase {
 
     // Because a new MuleMessageCollection is created, propagate properties from
     // original event
-    assertThat(result.getVariable("key1").getValue(), equalTo("value1"));
-    assertThat(result.getVariable("key2").getValue(), equalTo("value2"));
-    assertThat(result.getVariable("key3").getValue(), equalTo("value3"));
+    assertThat(result.getVariables().get("key1").getValue(), equalTo("value1"));
+    assertThat(result.getVariables().get("key2").getValue(), equalTo("value2"));
+    assertThat(result.getVariables().get("key3").getValue(), equalTo("value3"));
 
     // Root id
     assertThat(result.getCorrelationId(), equalTo(event1.getCorrelationId()));

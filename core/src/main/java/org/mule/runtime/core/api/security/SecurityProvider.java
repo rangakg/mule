@@ -9,20 +9,21 @@ package org.mule.runtime.core.api.security;
 import org.mule.runtime.api.lifecycle.Initialisable;
 import org.mule.runtime.api.meta.NameableObject;
 import org.mule.runtime.api.security.Authentication;
+import org.mule.runtime.api.security.SecurityContext;
 import org.mule.runtime.api.security.SecurityException;
 import org.mule.runtime.api.security.UnknownAuthenticationTypeException;
 
 /**
- * {@code SecurityProvider} is a target security provider that actually does the work of authenticating credentials and
- * populating the Authentication object.
+ * {@code SecurityProvider} is a target security provider that actually does the work of authenticating credentials and populating
+ * the Authentication object.
  *
  * @since 4.0
  */
 public interface SecurityProvider extends Initialisable, NameableObject {
 
   /**
-   * Performs the authentication of a security request based either on the security realm configured
-   * in the {@link Authentication} request or the default realm for the current context
+   * Performs the authentication of a security request based either on the security realm configured in the {@link Authentication}
+   * request or the default realm for the current context
    *
    * @param authentication The {@link Authentication} request
    * @return The authenticated response

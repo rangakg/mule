@@ -8,6 +8,7 @@ package org.mule.runtime.core.api.security;
 
 import org.mule.runtime.api.lifecycle.Initialisable;
 import org.mule.runtime.api.security.Authentication;
+import org.mule.runtime.api.security.SecurityContext;
 import org.mule.runtime.api.security.SecurityException;
 import org.mule.runtime.api.security.SecurityProviderNotFoundException;
 import org.mule.runtime.api.security.UnknownAuthenticationTypeException;
@@ -34,13 +35,14 @@ public interface SecurityManager extends Initialisable {
 
   /**
    * Adds a {@link SecurityProvider} to the set of available providers for authentication.
+   * 
    * @param provider the new {@link SecurityProvider}
    */
   void addProvider(SecurityProvider provider);
 
   /**
-   * @return a {@link SecurityProvider} managed by this {@link SecurityManager} with the given {@code name}
-   * or {@code null} if none was found
+   * @return a {@link SecurityProvider} managed by this {@link SecurityManager} with the given {@code name} or {@code null} if
+   *         none was found
    *
    * @see SecurityProvider#getName()
    */
@@ -48,9 +50,9 @@ public interface SecurityManager extends Initialisable {
 
   /**
    * Removes the {@link SecurityProvider} with the given name from the pool of managed {@link SecurityProvider}s
+   * 
    * @param name the {@link SecurityProvider#getName} to remove
-   * @return the {@link SecurityProvider} with the given {@code name}, or
-   *         {@code null} if none was found
+   * @return the {@link SecurityProvider} with the given {@code name}, or {@code null} if none was found
    */
   SecurityProvider removeProvider(String name);
 
@@ -67,32 +69,33 @@ public interface SecurityManager extends Initialisable {
   void setProviders(Collection<SecurityProvider> providers);
 
   /**
-   * Uses one of the available {@link SecurityProvider}s that {@link SecurityProvider#supports}
-   * the given {@link Authentication} to {@link SecurityProvider#createSecurityContext create a new security context}.
+   * Uses one of the available {@link SecurityProvider}s that {@link SecurityProvider#supports} the given {@link Authentication}
+   * to {@link SecurityProvider#createSecurityContext create a new security context}.
    *
    * @param authentication the {@link Authentication} used to create the new {@link SecurityContext}
    * @return a new {@link SecurityContext} created by the {@link SecurityProvider} with the given {@code authentication}
-   * @throws UnknownAuthenticationTypeException if no {@link SecurityProvider} is found that {@link SecurityProvider#supports}
-   * the given {@code authentication}
+   * @throws UnknownAuthenticationTypeException if no {@link SecurityProvider} is found that {@link SecurityProvider#supports} the
+   *         given {@code authentication}
    */
   SecurityContext createSecurityContext(Authentication authentication) throws UnknownAuthenticationTypeException;
 
   /**
-   * @param name the {@link EncryptionStrategy#getName name} of the {@link EncryptionStrategy}
-   *             that needs to be retrieved.
-   * @return the {@link EncryptionStrategy} with the given {@code name}, from the ones available
-   * in {@code this} {@link SecurityManager}
+   * @param name the {@link EncryptionStrategy#getName name} of the {@link EncryptionStrategy} that needs to be retrieved.
+   * @return the {@link EncryptionStrategy} with the given {@code name}, from the ones available in {@code this}
+   *         {@link SecurityManager}
    */
   EncryptionStrategy getEncryptionStrategy(String name);
 
   /**
    * Adds the {@link EncryptionStrategy} to the ones available from this {@link SecurityManager}
+   * 
    * @param strategy the {@link EncryptionStrategy} to be added
    */
   void addEncryptionStrategy(EncryptionStrategy strategy);
 
   /**
    * Removes the {@link EncryptionStrategy} with the given {@code name} from the set of managed {@link EncryptionStrategy}s
+   * 
    * @param name the {@link EncryptionStrategy#getName} to remove
    * @return the {@link EncryptionStrategy} with the given {@code name}, or {@code null} if none was found
    */

@@ -30,7 +30,7 @@ import static org.mule.runtime.api.metadata.DataType.OBJECT;
 import static org.mule.runtime.api.metadata.DataType.STRING;
 import static org.mule.runtime.api.metadata.DataType.fromType;
 import static org.mule.runtime.api.metadata.MediaType.APPLICATION_JSON;
-import static org.mule.runtime.core.el.BindingContextUtils.AUTHENTICATION;
+import static org.mule.runtime.internal.el.BindingContextUtils.AUTHENTICATION;
 import static org.mule.runtime.core.el.DataWeaveExpressionLanguageAdaptor.ATTRIBUTES;
 import static org.mule.runtime.core.el.DataWeaveExpressionLanguageAdaptor.DATA_TYPE;
 import static org.mule.runtime.core.el.DataWeaveExpressionLanguageAdaptor.ERROR;
@@ -59,7 +59,7 @@ import org.mule.runtime.core.api.expression.ExpressionRuntimeException;
 import org.mule.runtime.core.api.message.BaseAttributes;
 import org.mule.runtime.core.api.security.DefaultMuleAuthentication;
 import org.mule.runtime.core.api.security.DefaultMuleCredentials;
-import org.mule.runtime.core.api.security.SecurityContext;
+import org.mule.runtime.api.security.SecurityContext;
 import org.mule.runtime.core.internal.message.InternalMessage;
 import org.mule.runtime.core.security.DefaultSecurityContext;
 
@@ -192,10 +192,10 @@ public class DataWeaveExpressionLanguageAdaptorTestCase extends AbstractWeaveExp
     Event event = getEventWithError(empty());
     String var1 = "var1";
     String var2 = "var2";
-    when(event.getVariableNames()).thenReturn(Sets.newHashSet(var1, var2));
+    when(event.getVariables().keySet()).thenReturn(Sets.newHashSet(var1, var2));
     TypedValue varValue = new TypedValue<>(null, OBJECT);
-    when(event.getVariable(var1)).thenReturn(varValue);
-    when(event.getVariable(var2)).thenReturn(varValue);
+    when(event.getVariables().get(var1)).thenReturn(varValue);
+    when(event.getVariables().get(var2)).thenReturn(varValue);
 
     TypedValue result = expressionLanguage.evaluate(VARIABLES, event, BindingContext.builder().build());
     assertThat(result.getValue(), is(instanceOf(Map.class)));
@@ -208,11 +208,11 @@ public class DataWeaveExpressionLanguageAdaptorTestCase extends AbstractWeaveExp
     Event event = getEventWithError(empty());
     String var1 = "var1";
     String var2 = "var2";
-    when(event.getVariableNames()).thenReturn(Sets.newHashSet(var1, var2));
+    when(event.getVariables().keySet()).thenReturn(Sets.newHashSet(var1, var2));
     String varValue = "mangoose";
     TypedValue var = new TypedValue<>(varValue, STRING);
-    when(event.getVariable(var1)).thenReturn(var);
-    when(event.getVariable(var2)).thenReturn(var);
+    when(event.getVariables().get(var1)).thenReturn(var);
+    when(event.getVariables().get(var2)).thenReturn(var);
 
     TypedValue resultVar1 = expressionLanguage.evaluate(var1, event, BindingContext.builder().build());
     assertThat(resultVar1.getValue(), is(varValue));
@@ -226,9 +226,9 @@ public class DataWeaveExpressionLanguageAdaptorTestCase extends AbstractWeaveExp
   public void variablesCannotOverrideEventBindings() throws MuleException {
     Event event = spy(testEvent());
     HashSet<String> variables = Sets.newHashSet(PAYLOAD, ATTRIBUTES, ERROR, VARIABLES, FLOW);
-    when(event.getVariableNames()).thenReturn(variables);
+    when(event.getVariables().keySet()).thenReturn(variables);
     TypedValue<String> varValue = new TypedValue<>("", STRING);
-    variables.forEach(var -> doReturn(varValue).when(event).getVariable(var));
+    variables.forEach(var -> doReturn(varValue).when(event).getVariables().get(var));
     String flowName = "myFlowName";
 
     assertThat(expressionLanguage.evaluate(PAYLOAD, event, BindingContext.builder().build()).getValue(), is(TEST_PAYLOAD));
@@ -247,7 +247,7 @@ public class DataWeaveExpressionLanguageAdaptorTestCase extends AbstractWeaveExp
     String var1 = "var1";
     String var2 = "var2";
     TypedValue varValue = new TypedValue<>(null, OBJECT);
-    final HashMap<String, TypedValue<Object>> properties = new HashMap<>();
+    final HashMap<String, TypedValue<?>> properties = new HashMap<>();
     properties.put(var1, varValue);
     properties.put(var2, varValue);
     when(event.getProperties()).thenReturn(properties);
@@ -263,7 +263,7 @@ public class DataWeaveExpressionLanguageAdaptorTestCase extends AbstractWeaveExp
     String var1 = "var1";
     String var2 = "var2";
     TypedValue varValue = new TypedValue<>(null, OBJECT);
-    final HashMap<String, TypedValue<Object>> parameters = new HashMap<>();
+    final HashMap<String, TypedValue<?>> parameters = new HashMap<>();
     parameters.put(var1, varValue);
     parameters.put(var2, varValue);
     when(event.getParameters()).thenReturn(parameters);

@@ -55,7 +55,7 @@ public class FirstSuccessfulRoutingStrategy extends AbstractRoutingStrategy {
 
     for (Processor mp : messageProcessors) {
       try {
-        returnEvent = processor.processRoute(mp, builder(child(event.getContext(), empty()), event).build());
+        returnEvent = processor.processRoute(mp, builder(child(event.getInternalContext(), empty()), event).build());
 
         if (returnEvent == null) {
           failed = false;
@@ -83,7 +83,7 @@ public class FirstSuccessfulRoutingStrategy extends AbstractRoutingStrategy {
       }
     }
 
-    return returnEvent != null ? builder(event.getContext(), returnEvent).build() : null;
+    return returnEvent != null ? builder(event.getInternalContext(), returnEvent).build() : null;
   }
 
   interface RouteProcessor {

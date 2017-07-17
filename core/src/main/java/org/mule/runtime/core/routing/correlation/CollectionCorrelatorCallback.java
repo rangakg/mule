@@ -11,7 +11,7 @@ import static java.util.Optional.empty;
 import org.mule.runtime.core.api.MuleContext;
 import org.mule.runtime.core.api.Event;
 import org.mule.runtime.core.api.MuleSession;
-import org.mule.runtime.core.api.message.GroupCorrelation;
+import org.mule.runtime.api.event.GroupCorrelation;
 import org.mule.runtime.core.routing.AggregationException;
 import org.mule.runtime.core.routing.EventGroup;
 import org.mule.runtime.core.api.session.DefaultMuleSession;
