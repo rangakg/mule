@@ -80,7 +80,6 @@ public class ChoiceRouterTestCase extends AbstractReactiveProcessorTestCase {
     choiceRouter.addRoute(payloadZapExpression(), newChain(new TestMessageProcessor("bar")));
     choiceRouter.setDefaultRoute(newChain(new TestMessageProcessor("default")));
     choiceRouter.setMuleContext(muleContext);
-    choiceRouter.setFlowConstruct(getTestFlow(muleContext));
     choiceRouter.initialise();
     assertThat(process(choiceRouter, zapEvent()).getMessage().getPayload().getValue(), is("zap:bar"));
   }
@@ -90,7 +89,6 @@ public class ChoiceRouterTestCase extends AbstractReactiveProcessorTestCase {
     choiceRouter.addRoute(payloadZapExpression(), newChain(new TestMessageProcessor("bar")));
     choiceRouter.setRouterStatistics(new RouterStatistics(TYPE_OUTBOUND));
     choiceRouter.setMuleContext(muleContext);
-    choiceRouter.setFlowConstruct(getTestFlow(muleContext));
     choiceRouter.initialise();
     assertThat(process(choiceRouter, zapEvent()).getMessage().getPayload().getValue(), is("zap:bar"));
   }
@@ -102,7 +100,6 @@ public class ChoiceRouterTestCase extends AbstractReactiveProcessorTestCase {
     choiceRouter.removeRoute(mp);
     choiceRouter.setRouterStatistics(new RouterStatistics(TYPE_OUTBOUND));
     choiceRouter.setMuleContext(muleContext);
-    choiceRouter.setFlowConstruct(getTestFlow(muleContext));
     choiceRouter.initialise();
 
     Event inputEvent = zapEvent();
