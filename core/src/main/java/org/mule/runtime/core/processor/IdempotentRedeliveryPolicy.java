@@ -100,7 +100,7 @@ public class IdempotentRedeliveryPolicy extends AbstractRedeliveryPolicy {
     return () -> {
       ObjectStoreManager objectStoreManager = muleContext.getObjectStoreManager();
       return objectStoreManager
-          .getObjectStore( getLocation().getRootContainerName() + "." + getClass().getName(), false, -1,
+          .getObjectStore(getLocation().getRootContainerName() + "." + getClass().getName(), false, -1,
                           60 * 5 * 1000,
                           6000);
     };
