@@ -248,6 +248,7 @@ public class ExceptionUtils {
   public static Error getErrorFromFailingProcessor(Object object, Throwable cause, Event currentEvent, ErrorTypeLocator locator) {
     ErrorType currentError = currentEvent != null ? currentEvent.getError().map(Error::getErrorType).orElse(null) : null;
     ErrorType foundErrorType = locator.lookupErrorType(cause);
+    // CHECK CONNECTIVITY ACÁ
     currentError = foundErrorType.getIdentifier().equals(UNKNOWN_ERROR_IDENTIFIER) ? currentError : foundErrorType;
     return ErrorBuilder.builder(cause).errorType(getErrorTypeFromFailingProcessor(object, cause, currentError, locator)).build();
   }
@@ -262,7 +263,7 @@ public class ExceptionUtils {
     if (currentErrorType != null && isKnownMuleError(currentErrorType)) {
       errorType = currentErrorType;
     } else if (componentIdentifier != null) {
-      errorType = locator.lookupComponentErrorType(componentIdentifier, causeException);
+      errorType = locator.lookupComponentErrorType(componentIdentifier, unwrapMessagingException(causeException));
     } else {
       errorType = locator.lookupErrorType(causeException);
     }
@@ -296,9 +297,6 @@ public class ExceptionUtils {
     for (Throwable cause : causesAsList) {
       if (isWellFormedMessagingException(cause)) {
         return of(((Exception) cause));
-      }
-      if (cause instanceof ConnectionException) {
-        continue;
       }
       if (cause instanceof MuleException || cause instanceof MuleRuntimeException) {
         Exception exceptionCause = ((Exception) cause);
@@ -361,8 +359,8 @@ public class ExceptionUtils {
     return AnnotatedObject.class.isAssignableFrom(annotatedObject.getClass());
   }
 
-  private static Throwable unwrapMessagingException(Exception exception) {
-    return exception instanceof MessagingException ? exception.getCause() : exception;
+  private static Throwable unwrapMessagingException(Throwable throwable) {
+    return throwable instanceof MessagingException ? throwable.getCause() : throwable;
   }
 
   private static boolean hasErrorMappings(Object processor) {

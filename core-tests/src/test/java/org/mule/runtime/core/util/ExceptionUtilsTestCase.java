@@ -25,7 +25,6 @@ import static org.mule.runtime.core.api.util.ExceptionUtils.extractCauseOfType;
 import static org.mule.runtime.core.api.util.ExceptionUtils.extractConnectionException;
 import static org.mule.runtime.core.api.util.ExceptionUtils.extractOfType;
 import static org.mule.runtime.core.api.util.ExceptionUtils.getFullStackTraceWithoutMessages;
-import static org.mule.runtime.core.api.util.ExceptionUtils.updateMessagingExceptionWithError;
 
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.message.Error;
@@ -38,6 +37,7 @@ import org.mule.runtime.core.api.context.notification.FlowCallStack;
 import org.mule.runtime.core.api.exception.ErrorTypeLocator;
 import org.mule.runtime.core.api.exception.MessagingException;
 import org.mule.runtime.core.api.processor.Processor;
+import org.mule.runtime.core.api.util.ExceptionUtils;
 import org.mule.tck.junit4.AbstractMuleTestCase;
 import org.mule.tck.size.SmallTest;
 import org.junit.Test;
@@ -134,7 +134,7 @@ public class ExceptionUtilsTestCase extends AbstractMuleTestCase {
     EventContext eventContextMock = mock(EventContext.class);
     when(eventContextMock.getOriginatingLocation()).thenReturn(TEST_CONNECTOR_LOCATION);
 
-    Optional<Error> errorOptional = Optional.ofNullable(null);
+    Optional<Error> errorOptional = Optional.empty();
 
     when(messagingExceptionMock.getEvent()).thenReturn(eventMock);
 
@@ -152,13 +152,13 @@ public class ExceptionUtilsTestCase extends AbstractMuleTestCase {
     when(errorTypeLocatorMock.lookupErrorType(messagingExceptionMock)).thenReturn(type);
 
 
-    updateMessagingExceptionWithError(messagingExceptionMock, processorMock, muleContextMock);
+    ExceptionUtils.updateMessagingExceptionWithError(messagingExceptionMock, processorMock, muleContextMock);
 
     verify(messagingExceptionMock, atLeast(1)).setProcessedEvent(any(Event.class));
   }
 
   @Test
-  public void updateMessaginExceptionWithError() {
+  public void updateMessagingExceptionWithError() {
     MessagingException messagingExceptionMock = mock(MessagingException.class);
     Processor processorMock = mock(Processor.class);
     MuleContext muleContextMock = mock(MuleContext.class);
@@ -174,6 +174,7 @@ public class ExceptionUtilsTestCase extends AbstractMuleTestCase {
     Optional<Error> errorOptional = Optional.ofNullable(errorMock);
 
     when(messagingExceptionMock.getEvent()).thenReturn(eventMock);
+    when(messagingExceptionMock.getCause()).thenReturn(new Exception());
 
     when(eventMock.getError()).thenReturn(errorOptional);
     when(eventMock.getFlowCallStack()).thenReturn(flowCallStackMock);
@@ -187,7 +188,7 @@ public class ExceptionUtilsTestCase extends AbstractMuleTestCase {
     when(errorTypeLocatorMock.lookupErrorType(messagingExceptionMock)).thenReturn(mock(ErrorType.class));
 
 
-    updateMessagingExceptionWithError(messagingExceptionMock, processorMock, muleContextMock);
+    ExceptionUtils.updateMessagingExceptionWithError(messagingExceptionMock, processorMock, muleContextMock);
 
     verify(messagingExceptionMock, times(0)).setProcessedEvent(any(Event.class));
   }
