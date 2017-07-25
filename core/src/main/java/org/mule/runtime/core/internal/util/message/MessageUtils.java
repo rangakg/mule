@@ -6,10 +6,13 @@
  */
 package org.mule.runtime.core.internal.util.message;
 
+import static org.mule.runtime.api.metadata.DataType.builder;
 import static org.mule.runtime.api.metadata.MediaType.ANY;
 import static org.mule.runtime.core.api.util.StreamingUtils.streamingContent;
 import org.mule.runtime.api.message.Message;
+import org.mule.runtime.api.metadata.DataType;
 import org.mule.runtime.api.metadata.MediaType;
+import org.mule.runtime.api.metadata.TypedValue;
 import org.mule.runtime.api.streaming.CursorProvider;
 import org.mule.runtime.core.api.Event;
 import org.mule.runtime.core.api.streaming.iterator.StreamingIterator;
@@ -82,9 +85,10 @@ public final class MessageUtils {
                                   MediaType mediaType,
                                   CursorProviderFactory cursorProviderFactory,
                                   Event event) {
+    Object value = streamingContent(result.getOutput(), cursorProviderFactory, event);
     Message.Builder builder = Message.builder()
-        .payload(streamingContent(result.getOutput(), cursorProviderFactory, event))
-        .mediaType(mediaType);
+        .typedPayload(new TypedValue<>(value, builder(DataType.fromObject(value)).mediaType(mediaType).build(),
+                                       result.getLength()));
 
     result.getAttributes().ifPresent(builder::attributes);
     result.getAttributesMediaType().ifPresent(builder::attributesMediaType);

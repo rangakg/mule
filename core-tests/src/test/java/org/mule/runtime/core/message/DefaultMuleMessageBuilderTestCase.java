@@ -21,6 +21,7 @@ import static org.mule.runtime.api.metadata.DataType.HTML_STRING;
 import static org.mule.runtime.api.metadata.DataType.OBJECT;
 import static org.mule.runtime.api.metadata.DataType.STRING;
 import static org.mule.runtime.api.metadata.DataType.TEXT_STRING;
+import static org.mule.runtime.api.metadata.DataType.fromObject;
 import static org.mule.runtime.api.metadata.MediaType.ANY;
 import static org.mule.runtime.api.metadata.MediaType.HTML;
 import static org.mule.runtime.api.metadata.MediaType.TEXT;
@@ -28,16 +29,19 @@ import static org.mule.runtime.api.metadata.MediaType.XML;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.metadata.DataType;
 import org.mule.runtime.api.metadata.MediaType;
+import org.mule.runtime.api.metadata.TypedValue;
 import org.mule.runtime.core.api.message.BaseAttributes;
 import org.mule.runtime.core.internal.message.DefaultMessageBuilder;
 import org.mule.runtime.core.internal.message.InternalMessage;
 import org.mule.runtime.core.internal.metadata.DefaultCollectionDataType;
 import org.mule.tck.junit4.AbstractMuleTestCase;
+import org.mule.tck.testmodels.fruit.Apple;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.activation.DataHandler;
 
@@ -47,7 +51,7 @@ public class DefaultMuleMessageBuilderTestCase extends AbstractMuleTestCase {
 
   private static final String NEW_PAYLOAD = "new payload";
   private static final Object BASE_ATTRIBUTES = new BaseAttributes() {};
-  private static final DataType BASE_ATTRIBUTES_DATATYPE = DataType.fromObject(BASE_ATTRIBUTES);
+  private static final DataType BASE_ATTRIBUTES_DATATYPE = fromObject(BASE_ATTRIBUTES);
   private static final String PROPERTY_KEY = "propertyKey";
   private static final Serializable PROPERTY_VALUE = "propertyValue";
   private static final MediaType HTML_STRING_UTF8 = HTML.withCharset(UTF_8);
@@ -278,6 +282,20 @@ public class DefaultMuleMessageBuilderTestCase extends AbstractMuleTestCase {
     assertThat(copy.getPayload().getValue(), is(dataHandler));
     assertThat(copy.getPayload().getDataType().getType(), equalTo(DataHandler.class));
     assertThat(copy.getPayload().getDataType().getMediaType(), is(XML));
+  }
+
+  @Test
+  public void copyPreservesDataType() {
+    Apple apple = new Apple();
+    long appleSize = 111;
+    Message message = new DefaultMessageBuilder()
+        .typedPayload(new TypedValue(apple, fromObject(apple), Optional.of(appleSize))).build();
+    Message copy = new DefaultMessageBuilder(message).build();
+
+    assertThat(copy.getPayload(), is(message.getPayload()));
+    assertThat(copy.getAttributes(), is(message.getAttributes()));
+    assertThat(message.getPayload().getLength().get(), is(appleSize));
+    assertThat(copy.getPayload().getLength().get(), is(appleSize));
   }
 
   private Message createTestMessage() {

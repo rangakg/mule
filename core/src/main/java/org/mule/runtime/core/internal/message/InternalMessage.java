@@ -9,6 +9,7 @@ package org.mule.runtime.core.internal.message;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.metadata.DataType;
 import org.mule.runtime.api.metadata.MediaType;
+import org.mule.runtime.api.metadata.TypedValue;
 import org.mule.runtime.core.api.message.ExceptionPayload;
 import org.mule.runtime.core.api.message.DefaultMultiPartPayload;
 
@@ -57,10 +58,10 @@ public interface InternalMessage extends Message, MessageProperties, MessageAtta
     Builder nullPayload();
 
     @Override
-    Builder payload(Object payload);
+    Builder payload(Object value);
 
     @Override
-    Builder mediaType(MediaType mediaType);
+    Builder typedPayload(TypedValue payload);
 
     @Override
     CollectionBuilder streamPayload(Iterator payload, Class<?> itemType);
@@ -72,7 +73,10 @@ public interface InternalMessage extends Message, MessageProperties, MessageAtta
     CollectionBuilder collectionPayload(Object[] payload);
   }
 
-  interface AttributesBuilder extends Message.AttributesBuilder {
+  interface Builder extends Message.Builder, PayloadBuilder {
+
+    @Override
+    Builder mediaType(MediaType mediaType);
 
     @Override
     Builder nullAttributes();
@@ -81,10 +85,10 @@ public interface InternalMessage extends Message, MessageProperties, MessageAtta
     Builder attributes(Object value);
 
     @Override
-    Builder attributesMediaType(MediaType mediaType);
-  }
+    Builder typedAttributes(TypedValue attributes);
 
-  interface Builder extends Message.Builder, PayloadBuilder, AttributesBuilder {
+    @Override
+    Builder attributesMediaType(MediaType mediaType);
 
     /**
      * @param exceptionPayload

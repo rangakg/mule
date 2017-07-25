@@ -153,8 +153,7 @@ public abstract class AbstractMessageSequenceSplitter extends AbstractIntercepti
       final Message message = (Message) sequenceValue;
       builder.message(message);
     } else if (sequenceValue instanceof TypedValue) {
-      builder.message(Message.builder().payload(((TypedValue) sequenceValue).getValue())
-          .mediaType(((TypedValue) sequenceValue).getDataType().getMediaType()).build());
+      builder.message(Message.builder().typedPayload((TypedValue) sequenceValue).build());
     } else if (sequenceValue instanceof Collection) {
       builder.message(Message.builder(originalEvent.getMessage()).payload(((Collection) sequenceValue).stream()
           .map(v -> v instanceof TypedValue ? ((TypedValue) v).getValue() : v).collect(toList())).build());

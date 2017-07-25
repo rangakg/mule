@@ -10,6 +10,7 @@ package org.mule.functional.junit4;
 import static org.mule.functional.junit4.TestLegacyMessageUtils.LEGACY_MESSAGE_API_ERROR;
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.metadata.MediaType;
+import org.mule.runtime.api.metadata.TypedValue;
 import org.mule.runtime.core.api.message.ExceptionPayload;
 
 import java.io.Serializable;
@@ -56,6 +57,13 @@ public class TestLegacyMessageBuilder implements Message.Builder {
   }
 
   @Override
+  public Message.Builder typedPayload(TypedValue payload) {
+    builder.payload(payload);
+
+    return this;
+  }
+
+  @Override
   public TestLegacyMessageBuilder streamPayload(Iterator value, Class<?> itemType) {
     builder.streamPayload(value, itemType);
 
@@ -93,6 +101,13 @@ public class TestLegacyMessageBuilder implements Message.Builder {
   public TestLegacyMessageBuilder attributes(Object value) {
     checkInternalState();
     builder.attributes(value);
+    return this;
+  }
+
+  @Override
+  public Message.Builder typedAttributes(TypedValue attributes) {
+    checkInternalState();
+    builder.attributes(attributes);
     return this;
   }
 

@@ -6,10 +6,15 @@
  */
 package org.mule.runtime.core.api.util;
 
+import static java.util.Optional.of;
 import static org.apache.commons.lang3.math.NumberUtils.toInt;
+import static org.mule.runtime.api.metadata.DataType.fromObject;
+
 import org.mule.runtime.api.message.Message;
 import org.mule.runtime.api.message.MultiPartPayload;
+import org.mule.runtime.api.metadata.DataType;
 import org.mule.runtime.api.metadata.MediaType;
+import org.mule.runtime.api.metadata.TypedValue;
 import org.mule.runtime.api.streaming.bytes.CursorStreamProvider;
 import org.mule.runtime.core.api.config.MuleProperties;
 import org.mule.runtime.core.api.config.i18n.CoreMessages;
@@ -33,6 +38,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.util.Optional;
 
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
@@ -328,7 +334,8 @@ public class IOUtils {
     final Message.Builder builder;
 
     if (object instanceof File) {
-      builder = Message.builder().payload(new FileInputStream((File) object));
+      builder = Message.builder()
+          .typedPayload(new TypedValue(new FileInputStream((File) object), fromObject(object), of(((File) object).length())));
     } else if (object instanceof URL) {
       builder = Message.builder().payload(((URL) object).openStream());
     } else if (object instanceof String) {
