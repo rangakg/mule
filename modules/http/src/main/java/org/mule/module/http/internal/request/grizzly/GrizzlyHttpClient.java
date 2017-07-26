@@ -337,16 +337,37 @@ public class GrizzlyHttpClient implements HttpClient
         }
 
         @Override
-        public Response onCompleted(Response response) throws Exception
+        public Response onCompleted(final Response response) throws Exception
         {
-            completionHandler.onCompletion(createMuleResponse(response));
+            workManager.execute(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    try
+                    {
+                        completionHandler.onCompletion(createMuleResponse(response));
+                    }
+                    catch (IOException e)
+                    {
+                        completionHandler.onFailure(e);
+                    }
+                }
+            });
             return null;
         }
 
         @Override
-        public void onThrowable(Throwable t)
+        public void onThrowable(final Throwable t)
         {
-            completionHandler.onFailure((Exception) t);
+            workManager.execute(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    completionHandler.onFailure((Exception) t);
+                }
+            });
         }
 
         @Override
