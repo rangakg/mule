@@ -12,7 +12,6 @@ import static java.util.stream.Collectors.toMap;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart;
 import static org.mule.runtime.api.app.declaration.fluent.ElementDeclarer.forExtension;
-import static org.mule.runtime.api.app.declaration.fluent.ElementDeclarer.newFlow;
 import static org.mule.runtime.api.app.declaration.fluent.ElementDeclarer.newListValue;
 import static org.mule.runtime.api.app.declaration.fluent.ElementDeclarer.newObjectValue;
 import static org.mule.runtime.api.app.declaration.fluent.ElementDeclarer.newParameterGroup;
@@ -37,7 +36,6 @@ import static org.mule.runtime.extension.api.util.ExtensionMetadataTypeUtils.isM
 import static org.mule.runtime.extension.api.util.ExtensionModelUtils.isInfrastructure;
 import static org.mule.runtime.internal.dsl.DslConstants.CONFIG_ATTRIBUTE_NAME;
 import static org.mule.runtime.internal.dsl.DslConstants.CORE_PREFIX;
-import static org.mule.runtime.internal.dsl.DslConstants.EE_PREFIX;
 import static org.mule.runtime.internal.dsl.DslConstants.FLOW_ELEMENT_IDENTIFIER;
 import static org.mule.runtime.internal.dsl.DslConstants.KEY_ATTRIBUTE_NAME;
 import static org.mule.runtime.internal.dsl.DslConstants.NAME_ATTRIBUTE_NAME;
@@ -47,6 +45,7 @@ import static org.mule.runtime.internal.dsl.DslConstants.RECONNECT_FOREVER_ELEME
 import static org.mule.runtime.internal.dsl.DslConstants.REDELIVERY_POLICY_ELEMENT_IDENTIFIER;
 import static org.mule.runtime.internal.dsl.DslConstants.TLS_CONTEXT_ELEMENT_IDENTIFIER;
 import static org.mule.runtime.internal.dsl.DslConstants.VALUE_ATTRIBUTE_NAME;
+import static org.mule.runtime.module.extension.internal.resources.MuleExtensionModelProvider.MULE_NAME;
 import org.mule.metadata.api.model.ArrayType;
 import org.mule.metadata.api.model.MetadataType;
 import org.mule.metadata.api.model.ObjectType;
@@ -54,22 +53,19 @@ import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.runtime.api.app.declaration.ArtifactDeclaration;
 import org.mule.runtime.api.app.declaration.ComponentElementDeclaration;
 import org.mule.runtime.api.app.declaration.ParameterValue;
-import org.mule.runtime.api.app.declaration.RouteElementDeclaration;
 import org.mule.runtime.api.app.declaration.fluent.ArtifactDeclarer;
 import org.mule.runtime.api.app.declaration.fluent.ComponentElementDeclarer;
 import org.mule.runtime.api.app.declaration.fluent.ConfigurationElementDeclarer;
 import org.mule.runtime.api.app.declaration.fluent.ConnectionElementDeclarer;
+import org.mule.runtime.api.app.declaration.fluent.ConstructElementDeclarer;
 import org.mule.runtime.api.app.declaration.fluent.ElementDeclarer;
-import org.mule.runtime.api.app.declaration.fluent.FlowElementDeclarer;
+import org.mule.runtime.api.app.declaration.fluent.HasNestedComponentDeclarer;
 import org.mule.runtime.api.app.declaration.fluent.ParameterGroupElementDeclarer;
 import org.mule.runtime.api.app.declaration.fluent.ParameterListValue;
 import org.mule.runtime.api.app.declaration.fluent.ParameterObjectValue;
 import org.mule.runtime.api.app.declaration.fluent.ParameterSimpleValue;
 import org.mule.runtime.api.app.declaration.fluent.ParameterizedBuilder;
 import org.mule.runtime.api.app.declaration.fluent.ParameterizedElementDeclarer;
-import org.mule.runtime.api.app.declaration.fluent.RouteElementDeclarer;
-import org.mule.runtime.api.app.declaration.fluent.RouterElementDeclarer;
-import org.mule.runtime.api.app.declaration.fluent.ScopeElementDeclarer;
 import org.mule.runtime.api.app.declaration.fluent.TopLevelParameterDeclarer;
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.exception.MuleRuntimeException;
@@ -77,11 +73,10 @@ import org.mule.runtime.api.meta.model.ComponentModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.config.ConfigurationModel;
 import org.mule.runtime.api.meta.model.connection.ConnectionProviderModel;
+import org.mule.runtime.api.meta.model.construct.ConstructModel;
+import org.mule.runtime.api.meta.model.construct.HasConstructModels;
 import org.mule.runtime.api.meta.model.operation.HasOperationModels;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
-import org.mule.runtime.api.meta.model.operation.RouteModel;
-import org.mule.runtime.api.meta.model.operation.RouterModel;
-import org.mule.runtime.api.meta.model.operation.ScopeModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterGroupModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterModel;
 import org.mule.runtime.api.meta.model.parameter.ParameterizedModel;
@@ -263,7 +258,8 @@ public class DefaultXmlArtifactDeclarationLoader implements XmlArtifactDeclarati
   }
 
   private void declareFlow(ConfigLine configLine, ArtifactDeclarer artifactDeclarer) {
-    final FlowElementDeclarer flow = newFlow().withRefName(getDeclaredName(configLine));
+    final ConstructElementDeclarer flow = forExtension(MULE_NAME).newConstruct("flow")
+        .withRefName(getDeclaredName(configLine));
     ParameterGroupElementDeclarer general = newParameterGroup();
     configLine.getConfigAttributes().values().stream()
         .filter(a -> !a.getName().equals(NAME_ATTRIBUTE_NAME) && !a.getName().equals(CONFIG_ATTRIBUTE_NAME))
@@ -288,11 +284,6 @@ public class DefaultXmlArtifactDeclarationLoader implements XmlArtifactDeclarati
     String namespace = getNamespace(line);
     ExtensionModel extensionModel = extensionsByNamespace.get(namespace);
 
-    // TODO EE-5398: Create EE ExtensionModel 
-    if (extensionModel == null && EE_PREFIX.equals(namespace)) {
-      extensionModel = extensionsByNamespace.get(CORE_PREFIX);
-    }
-
     if (extensionModel == null) {
       throw new MuleRuntimeException(createStaticMessage("Missing Extension model in the context for namespace [" + namespace
           + "]"));
@@ -310,36 +301,35 @@ public class DefaultXmlArtifactDeclarationLoader implements XmlArtifactDeclarati
       @Override
       protected void onOperation(HasOperationModels owner, OperationModel model) {
         if (!model.getName().equals(TRANSFORM_IDENTIFIER)) {
-          final DslElementSyntax elementDsl = dsl.resolve(model);
-          if (elementDsl.getElementName().equals(line.getIdentifier())) {
-            ComponentElementDeclarer declarer = extensionElementsDeclarer.newOperation(model.getName());
-
-            if (line.getConfigAttributes().get(CONFIG_ATTRIBUTE_NAME) != null) {
-              declarer.withConfig(line.getConfigAttributes().get(CONFIG_ATTRIBUTE_NAME).getValue());
-            }
-
-            declareParameterizedComponent(model, elementDsl, declarer, line.getConfigAttributes(), line.getChildren());
+          declareComponentModel(model).ifPresent(declarer -> {
             declarationConsumer.accept((ComponentElementDeclaration) declarer.getDeclaration());
             stop();
-          }
-
+          });
         } else {
           declareTransform(model);
         }
       }
 
-      @Override
-      protected void onSource(HasSourceModels owner, SourceModel model) {
+      private Optional<ComponentElementDeclarer> declareComponentModel(ComponentModel model) {
         final DslElementSyntax elementDsl = dsl.resolve(model);
         if (elementDsl.getElementName().equals(line.getIdentifier())) {
-          ComponentElementDeclarer declarer = extensionElementsDeclarer.newSource(model.getName());
+          ComponentElementDeclarer declarer = extensionElementsDeclarer.newOperation(model.getName());
 
           if (line.getConfigAttributes().get(CONFIG_ATTRIBUTE_NAME) != null) {
             declarer.withConfig(line.getConfigAttributes().get(CONFIG_ATTRIBUTE_NAME).getValue());
           }
 
           declareParameterizedComponent(model, elementDsl, declarer, line.getConfigAttributes(), line.getChildren());
+          declareComposableModel(dsl, line, declarer);
+          return Optional.of(declarer);
+        }
+        return Optional.empty();
+      }
 
+      @Override
+      protected void onSource(HasSourceModels owner, SourceModel model) {
+        declareComponentModel(model).ifPresent(declarer -> {
+          final DslElementSyntax elementDsl = dsl.resolve(model);
           model.getSuccessCallback()
               .ifPresent(cb -> declareParameterizedComponent(cb, elementDsl, declarer,
                                                              line.getConfigAttributes(), line.getChildren()));
@@ -350,52 +340,15 @@ public class DefaultXmlArtifactDeclarationLoader implements XmlArtifactDeclarati
 
           declarationConsumer.accept((ComponentElementDeclaration) declarer.getDeclaration());
           stop();
-        }
+        });
       }
 
       @Override
-      protected void onScope(HasOperationModels owner, ScopeModel model) {
-        final DslElementSyntax elementDsl = dsl.resolve(model);
-        if (elementDsl.getElementName().equals(line.getIdentifier())) {
-          ScopeElementDeclarer scope = extensionElementsDeclarer.newScope(model.getName());
-
-          if (line.getConfigAttributes().get(CONFIG_ATTRIBUTE_NAME) != null) {
-            scope.withConfig(line.getConfigAttributes().get(CONFIG_ATTRIBUTE_NAME).getValue());
-          }
-
-          declareParameterizedComponent(model, elementDsl, scope, line.getConfigAttributes(), line.getChildren());
-
-          line.getChildren().forEach(child -> {
-            ExtensionModel extensionModel = getExtensionModel(child);
-            getComponentDeclaringWalker(scope::withComponent, child, forExtension(extensionModel.getName()), dsl)
-                .walk(extensionModel);
-          });
-
-          declarationConsumer.accept(scope.getDeclaration());
+      protected void onConstruct(HasConstructModels owner, ConstructModel model) {
+        declareComponentModel(model).ifPresent(declarer -> {
+          declarationConsumer.accept((ComponentElementDeclaration) declarer.getDeclaration());
           stop();
-        }
-      }
-
-      @Override
-      protected void onRouter(HasOperationModels owner, RouterModel model) {
-        final DslElementSyntax elementDsl = dsl.resolve(model);
-
-        if (elementDsl.getElementName().equals(line.getIdentifier())) {
-          RouterElementDeclarer router = extensionElementsDeclarer.newRouter(model.getName());
-
-          if (line.getConfigAttributes().get(CONFIG_ATTRIBUTE_NAME) != null) {
-            router.withConfig(line.getConfigAttributes().get(CONFIG_ATTRIBUTE_NAME).getValue());
-          }
-
-          declareParameterizedComponent(model, elementDsl, router, line.getConfigAttributes(), line.getChildren());
-
-          model.getRouteModels()
-              .forEach(routeModel -> declareRoute(routeModel, elementDsl, line, extensionElementsDeclarer, dsl)
-                  .ifPresent(router::withRoute));
-
-          declarationConsumer.accept(router.getDeclaration());
-          stop();
-        }
+        });
       }
 
       private void declareTransform(ComponentModel model) {
@@ -483,28 +436,32 @@ public class DefaultXmlArtifactDeclarationLoader implements XmlArtifactDeclarati
     return config.getCustomAttributes().get(IS_CDATA) != null;
   }
 
-  private Optional<RouteElementDeclaration> declareRoute(RouteModel model, DslElementSyntax elementDsl, ConfigLine line,
-                                                         ElementDeclarer elementsDeclarer, DslSyntaxResolver dsl) {
-    Reference<RouteElementDeclaration> declaration = new Reference<>();
-    elementDsl.getChild(model.getName())
-        .ifPresent(routeDsl -> line.getChildren().stream()
-            .filter(child -> child.getIdentifier().equals(routeDsl.getElementName()))
-            .findFirst()
-            .ifPresent(routeConfig -> {
-              RouteElementDeclarer route = elementsDeclarer.newRoute(model.getName());
-              declareParameterizedComponent(model, routeDsl, route,
-                                            routeConfig.getConfigAttributes(), routeConfig.getChildren());
-              routeConfig.getChildren()
-                  .forEach(child -> {
-                    ExtensionModel extensionModel = getExtensionModel(child);
-                    getComponentDeclaringWalker(route::withComponent, child, forExtension(extensionModel.getName()), dsl)
-                        .walk(extensionModel);
-                  });
+  // private Optional<RouteElementDeclaration> declareRoute(NestedRouteModel model, DslElementSyntax elementDsl, ConfigLine line,
+  //                                                        ElementDeclarer elementsDeclarer, DslSyntaxResolver dsl) {
+  //   Reference<RouteElementDeclaration> declaration = new Reference<>();
+  //   elementDsl.getChild(model.getName())
+  //       .ifPresent(routeDsl -> line.getChildren().stream()
+  //           .filter(child -> child.getIdentifier().equals(routeDsl.getElementName()))
+  //           .findFirst()
+  //           .ifPresent(routeConfig -> {
+  //             RouteElementDeclarer route = elementsDeclarer.newRoute(model.getName());
+  //             declareParameterizedComponent(model, routeDsl, route,
+  //                                           routeConfig.getConfigAttributes(), routeConfig.getChildren());
+  //             declareComposableModel(dsl, routeConfig, route);
+  //
+  //             declaration.set(route.getDeclaration());
+  //           }));
+  //
+  //   return Optional.ofNullable(declaration.get());
+  // }
 
-              declaration.set(route.getDeclaration());
-            }));
-
-    return Optional.ofNullable(declaration.get());
+  private void declareComposableModel(DslSyntaxResolver dsl, ConfigLine containerConfig, HasNestedComponentDeclarer declarer) {
+    containerConfig.getChildren()
+        .forEach(child -> {
+          ExtensionModel extensionModel = getExtensionModel(child);
+          getComponentDeclaringWalker(declarer::withComponent, child, forExtension(extensionModel.getName()), dsl)
+              .walk(extensionModel);
+        });
   }
 
   private void declareParameterizedComponent(ParameterizedModel model, DslElementSyntax elementDsl,
