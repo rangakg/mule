@@ -23,6 +23,7 @@ import org.mule.metadata.api.model.ObjectType;
 import org.mule.metadata.api.visitor.MetadataTypeVisitor;
 import org.mule.runtime.api.meta.NamedObject;
 import org.mule.runtime.api.meta.model.ComponentModel;
+import org.mule.runtime.api.meta.model.ExecutableComponentModel;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.api.meta.model.operation.HasOperationModels;
 import org.mule.runtime.api.meta.model.operation.OperationModel;
@@ -79,7 +80,7 @@ public class MetadataComponentModelValidator implements ExtensionModelValidator 
         validateComponent(model);
       }
 
-      private void validateComponent(ComponentModel model) {
+      private void validateComponent(ExecutableComponentModel model) {
         validateMetadataReturnType(extensionModel, model, problemsReporter);
         MetadataResolverFactory resolverFactory = MuleExtensionUtils.getMetadataResolverFactory(model);
         validateMetadataOutputAttributes(model, resolverFactory, problemsReporter);
@@ -162,7 +163,7 @@ public class MetadataComponentModelValidator implements ExtensionModelValidator 
 
   }
 
-  private void validateMetadataOutputAttributes(ComponentModel component, MetadataResolverFactory resolverFactory,
+  private void validateMetadataOutputAttributes(ExecutableComponentModel component, MetadataResolverFactory resolverFactory,
                                                 ProblemsReporter problemsReporter) {
     if (isVoid(component.getOutputAttributes().getType())
         && !(resolverFactory.getOutputAttributesResolver() instanceof NullMetadataResolver)
@@ -174,7 +175,7 @@ public class MetadataComponentModelValidator implements ExtensionModelValidator 
   }
 
 
-  private void validateMetadataReturnType(ExtensionModel extensionModel, ComponentModel component,
+  private void validateMetadataReturnType(ExtensionModel extensionModel, ExecutableComponentModel component,
                                           ProblemsReporter problemsReporter) {
     if (MuleExtensionUtils.getMetadataResolverFactory(component).getOutputResolver() instanceof NullMetadataResolver) {
       component.getOutput().getType().accept(new MetadataTypeVisitor() {
