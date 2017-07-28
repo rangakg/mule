@@ -2243,7 +2243,6 @@
         </xsd:annotation>
     </xsd:element>
 
-
     <xsd:complexType name="setPayloadTransformerType">
         <xsd:complexContent>
             <xsd:extension base="topLevelProcessorType">
@@ -2265,13 +2264,6 @@
                     <xsd:annotation>
                         <xsd:documentation>
                             The value to be set on the payload. Supports expressions.
-                        </xsd:documentation>
-                    </xsd:annotation>
-                </xsd:attribute>
-                <xsd:attribute name="target" type="xsd:string" use="optional">
-                    <xsd:annotation>
-                        <xsd:documentation>
-                            Variable name where the transformed message will be stored
                         </xsd:documentation>
                     </xsd:annotation>
                 </xsd:attribute>
