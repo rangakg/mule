@@ -2231,13 +2231,6 @@
                         </xsd:documentation>
                     </xsd:annotation>
                 </xsd:attribute>
-                <xsd:attribute name="encoding" type="xsd:string">
-                    <xsd:annotation>
-                        <xsd:documentation>
-                            String encoding used for transformer output.
-                        </xsd:documentation>
-                    </xsd:annotation>
-                </xsd:attribute>
             </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
