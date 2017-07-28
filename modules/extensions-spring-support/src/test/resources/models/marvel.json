@@ -93,7 +93,10 @@
           "transactional": false,
           "requiresConnection": false,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [],
           "name": "crashCar",
           "description": "",
@@ -141,7 +144,10 @@
           "transactional": false,
           "requiresConnection": false,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -318,7 +324,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": true,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -648,7 +657,10 @@
           "transactional": false,
           "requiresConnection": false,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -824,7 +836,10 @@
           "transactional": false,
           "requiresConnection": false,
           "supportsStreaming": true,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -1201,7 +1216,10 @@
           "transactional": false,
           "requiresConnection": false,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -1489,7 +1507,10 @@
           "transactional": false,
           "requiresConnection": false,
           "supportsStreaming": true,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -2136,7 +2157,6 @@
           "kind": "source"
         }
       ],
-      "functions": [],
       "name": "dr-strange",
       "description": "",
       "modelProperties": {}
@@ -2216,7 +2236,10 @@
           "transactional": false,
           "requiresConnection": false,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [],
           "name": "computeFlightPlan",
           "description": "",
@@ -2276,7 +2299,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -2796,7 +2822,6 @@
         }
       ],
       "messageSources": [],
-      "functions": [],
       "name": "iron-man",
       "description": "",
       "modelProperties": {}
@@ -2831,7 +2856,10 @@
       "transactional": false,
       "requiresConnection": false,
       "supportsStreaming": false,
-      "stereotypes": [],
+      "stereotypes": [
+        "PROCESSOR"
+      ],
+      "nestedComponents": [],
       "parameterGroupModels": [
         {
           "parameters": [
@@ -2991,7 +3019,10 @@
       "transactional": false,
       "requiresConnection": false,
       "supportsStreaming": false,
-      "stereotypes": [],
+      "stereotypes": [
+        "PROCESSOR"
+      ],
+      "nestedComponents": [],
       "parameterGroupModels": [
         {
           "parameters": [
@@ -3087,6 +3118,7 @@
     }
   ],
   "functions": [],
+  "constructs": [],
   "connectionProviders": [],
   "messageSources": [],
   "errors": [

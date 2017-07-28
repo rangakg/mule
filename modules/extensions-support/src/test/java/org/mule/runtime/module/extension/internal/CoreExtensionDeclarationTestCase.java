@@ -68,7 +68,8 @@ public class CoreExtensionDeclarationTestCase extends AbstractJavaExtensionDecla
     assertThat(extensionModel.getVersion(), is(VERSION));
     assertThat(extensionModel.getConfigurationModels(), hasSize(0));
     assertThat(extensionModel.getVendor(), is(VENDOR));
-    assertThat(extensionModel.getOperationModels(), hasSize(2));
+    assertThat(extensionModel.getOperationModels(), hasSize(0));
+    assertThat(extensionModel.getConstructModels(), hasSize(2));
     assertThat(extensionModel.getConnectionProviders(), is(empty()));
     assertThat(extensionModel.getSourceModels(), is(empty()));
   }

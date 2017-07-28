@@ -409,7 +409,7 @@ public class MetadataOperationTestCase extends AbstractMetadataOperationTestCase
   @Test
   public void pagedOperationResultMetadataTestCase() throws Exception {
     location = Location.builder().globalName(PAGED_OPERATION_METADATA_RESULT).addProcessorsPart().addIndexPart(0).build();
-    ComponentMetadataDescriptor metadataDescriptor = getSuccessComponentDynamicMetadata(PERSON_METADATA_KEY);
+    ComponentMetadataDescriptor<OperationModel> metadataDescriptor = getSuccessComponentDynamicMetadata(PERSON_METADATA_KEY);
     MetadataType param = metadataDescriptor.getModel().getOutput().getType();
     assertThat(param, is(instanceOf(ArrayType.class)));
     assertMessageType(((ArrayType) param).getType(), personType, TYPE_LOADER.load(Animal.class));
@@ -419,7 +419,7 @@ public class MetadataOperationTestCase extends AbstractMetadataOperationTestCase
   public void pagedOperationResultWithAttributeResolverMetadataTestCase() throws Exception {
     location = Location.builder().globalName(PAGED_OPERATION_METADATA_RESULT_WITH_ATTRIBUTES).addProcessorsPart().addIndexPart(0)
         .build();
-    ComponentMetadataDescriptor metadataDescriptor = getSuccessComponentDynamicMetadata(PERSON_METADATA_KEY);
+    ComponentMetadataDescriptor<OperationModel> metadataDescriptor = getSuccessComponentDynamicMetadata(PERSON_METADATA_KEY);
     MetadataType param = metadataDescriptor.getModel().getOutput().getType();
     assertThat(param, is(instanceOf(ArrayType.class)));
     assertMessageType(((ArrayType) param).getType(), personType, personType);

@@ -16,7 +16,7 @@ import java.util.Map;
  * <p/>
  * The method parameters of type {@link NestedProcessor} will be able to receive other message processors.
  */
-public interface NestedProcessor<T, P, A> {
+public interface NestedProcessor {
 
   /**
    * Dispatch original message to the processor chain
@@ -49,15 +49,5 @@ public interface NestedProcessor<T, P, A> {
    * @return The return payload for the processor chain
    */
   Object process() throws Exception;
-
-  /**
-   * Dispatch message to the processor chain
-   *
-   * @param payload The payload of the message
-   * @return The return payload for the processor chain
-   */
-  default Result<P, A> process(TypedValue payload, TypedValue attributes) throws Exception {
-    return null;
-  }
 
 }

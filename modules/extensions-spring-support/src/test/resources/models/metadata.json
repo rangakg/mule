@@ -203,7 +203,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -416,7 +419,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -628,7 +634,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -840,7 +849,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -1008,7 +1020,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -1220,7 +1235,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -1371,7 +1389,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -1542,7 +1563,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -1737,7 +1761,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -1902,7 +1929,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -2130,7 +2160,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -2342,7 +2375,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -2537,7 +2573,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -2665,7 +2704,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -2878,7 +2920,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -3047,7 +3092,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -3302,7 +3350,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -3514,7 +3565,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -3682,7 +3736,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -3851,7 +3908,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -4003,7 +4063,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -4157,7 +4220,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -4328,7 +4394,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -4523,7 +4592,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -4972,7 +5044,10 @@
           "transactional": false,
           "requiresConnection": true,
           "supportsStreaming": false,
-          "stereotypes": [],
+          "stereotypes": [
+            "PROCESSOR"
+          ],
+          "nestedComponents": [],
           "parameterGroupModels": [
             {
               "parameters": [
@@ -5309,7 +5384,6 @@
           "kind": "source"
         }
       ],
-      "functions": [],
       "name": "config",
       "description": "Default configuration",
       "modelProperties": {}
@@ -5341,7 +5415,10 @@
       "transactional": false,
       "requiresConnection": false,
       "supportsStreaming": false,
-      "stereotypes": [],
+      "stereotypes": [
+        "PROCESSOR"
+      ],
+      "nestedComponents": [],
       "parameterGroupModels": [
         {
           "parameters": [
@@ -5418,7 +5495,10 @@
       "transactional": false,
       "requiresConnection": false,
       "supportsStreaming": false,
-      "stereotypes": [],
+      "stereotypes": [
+        "PROCESSOR"
+      ],
+      "nestedComponents": [],
       "parameterGroupModels": [
         {
           "parameters": [
@@ -5524,7 +5604,10 @@
       "transactional": false,
       "requiresConnection": false,
       "supportsStreaming": false,
-      "stereotypes": [],
+      "stereotypes": [
+        "PROCESSOR"
+      ],
+      "nestedComponents": [],
       "parameterGroupModels": [
         {
           "parameters": [
@@ -5615,7 +5698,10 @@
       "transactional": false,
       "requiresConnection": false,
       "supportsStreaming": false,
-      "stereotypes": [],
+      "stereotypes": [
+        "PROCESSOR"
+      ],
+      "nestedComponents": [],
       "parameterGroupModels": [
         {
           "parameters": [
@@ -5771,7 +5857,10 @@
       "transactional": false,
       "requiresConnection": false,
       "supportsStreaming": false,
-      "stereotypes": [],
+      "stereotypes": [
+        "PROCESSOR"
+      ],
+      "nestedComponents": [],
       "parameterGroupModels": [
         {
           "parameters": [
@@ -5921,7 +6010,10 @@
       "transactional": false,
       "requiresConnection": false,
       "supportsStreaming": false,
-      "stereotypes": [],
+      "stereotypes": [
+        "PROCESSOR"
+      ],
+      "nestedComponents": [],
       "parameterGroupModels": [
         {
           "parameters": [
@@ -6080,7 +6172,10 @@
       "transactional": false,
       "requiresConnection": false,
       "supportsStreaming": false,
-      "stereotypes": [],
+      "stereotypes": [
+        "PROCESSOR"
+      ],
+      "nestedComponents": [],
       "parameterGroupModels": [
         {
           "parameters": [
@@ -6171,7 +6266,10 @@
       "transactional": false,
       "requiresConnection": false,
       "supportsStreaming": false,
-      "stereotypes": [],
+      "stereotypes": [
+        "PROCESSOR"
+      ],
+      "nestedComponents": [],
       "parameterGroupModels": [
         {
           "parameters": [
@@ -6298,7 +6396,10 @@
       "transactional": false,
       "requiresConnection": false,
       "supportsStreaming": false,
-      "stereotypes": [],
+      "stereotypes": [
+        "PROCESSOR"
+      ],
+      "nestedComponents": [],
       "parameterGroupModels": [
         {
           "parameters": [
@@ -6372,7 +6473,10 @@
       "transactional": false,
       "requiresConnection": false,
       "supportsStreaming": false,
-      "stereotypes": [],
+      "stereotypes": [
+        "PROCESSOR"
+      ],
+      "nestedComponents": [],
       "parameterGroupModels": [
         {
           "parameters": [
@@ -6463,7 +6567,10 @@
       "transactional": false,
       "requiresConnection": false,
       "supportsStreaming": false,
-      "stereotypes": [],
+      "stereotypes": [
+        "PROCESSOR"
+      ],
+      "nestedComponents": [],
       "parameterGroupModels": [
         {
           "parameters": [
@@ -6596,7 +6703,10 @@
       "transactional": false,
       "requiresConnection": true,
       "supportsStreaming": true,
-      "stereotypes": [],
+      "stereotypes": [
+        "PROCESSOR"
+      ],
+      "nestedComponents": [],
       "parameterGroupModels": [
         {
           "parameters": [
@@ -6929,7 +7039,10 @@
       "transactional": false,
       "requiresConnection": true,
       "supportsStreaming": true,
-      "stereotypes": [],
+      "stereotypes": [
+        "PROCESSOR"
+      ],
+      "nestedComponents": [],
       "parameterGroupModels": [
         {
           "parameters": [
@@ -7297,7 +7410,10 @@
       "transactional": false,
       "requiresConnection": true,
       "supportsStreaming": true,
-      "stereotypes": [],
+      "stereotypes": [
+        "PROCESSOR"
+      ],
+      "nestedComponents": [],
       "parameterGroupModels": [
         {
           "parameters": [
@@ -7602,7 +7718,10 @@
       "transactional": false,
       "requiresConnection": false,
       "supportsStreaming": false,
-      "stereotypes": [],
+      "stereotypes": [
+        "PROCESSOR"
+      ],
+      "nestedComponents": [],
       "parameterGroupModels": [
         {
           "parameters": [
@@ -7748,7 +7867,10 @@
       "transactional": false,
       "requiresConnection": false,
       "supportsStreaming": false,
-      "stereotypes": [],
+      "stereotypes": [
+        "PROCESSOR"
+      ],
+      "nestedComponents": [],
       "parameterGroupModels": [
         {
           "parameters": [
@@ -7878,7 +8000,10 @@
       "transactional": false,
       "requiresConnection": false,
       "supportsStreaming": false,
-      "stereotypes": [],
+      "stereotypes": [
+        "PROCESSOR"
+      ],
+      "nestedComponents": [],
       "parameterGroupModels": [
         {
           "parameters": [
@@ -8038,7 +8163,10 @@
       "transactional": false,
       "requiresConnection": false,
       "supportsStreaming": false,
-      "stereotypes": [],
+      "stereotypes": [
+        "PROCESSOR"
+      ],
+      "nestedComponents": [],
       "parameterGroupModels": [
         {
           "parameters": [
@@ -8176,6 +8304,7 @@
     }
   ],
   "functions": [],
+  "constructs": [],
   "connectionProviders": [
     {
       "connectionManagementType": "NONE",
@@ -8396,7 +8525,10 @@
       "transactional": false,
       "requiresConnection": false,
       "supportsStreaming": false,
-      "stereotypes": [],
+      "stereotypes": [
+        "PROCESSOR"
+      ],
+      "nestedComponents": [],
       "parameterGroupModels": [
         {
           "parameters": [

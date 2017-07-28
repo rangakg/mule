@@ -19,7 +19,6 @@ import static org.mule.runtime.core.api.util.IOUtils.getResourceAsString;
 import static org.mule.runtime.module.extension.internal.loader.java.AbstractJavaExtensionModelLoader.TYPE_PROPERTY_NAME;
 import static org.mule.runtime.module.extension.internal.loader.java.AbstractJavaExtensionModelLoader.VERSION;
 import static org.mule.runtime.module.extension.internal.resources.MuleExtensionModelProvider.MULE_VERSION;
-
 import org.mule.runtime.api.dsl.DslResolvingContext;
 import org.mule.runtime.api.meta.model.ExtensionModel;
 import org.mule.runtime.core.api.registry.ServiceRegistry;
@@ -28,12 +27,6 @@ import org.mule.runtime.extension.api.loader.ExtensionModelLoader;
 import org.mule.runtime.extension.api.persistence.ExtensionModelJsonSerializer;
 import org.mule.runtime.module.extension.internal.loader.enricher.JavaXmlDeclarationEnricher;
 import org.mule.runtime.module.extension.internal.loader.java.DefaultJavaExtensionModelLoader;
-import org.mule.runtime.module.extension.internal.runtime.connectivity.basic.GlobalInnerPojoConnector;
-import org.mule.runtime.module.extension.internal.runtime.connectivity.basic.GlobalPojoConnector;
-import org.mule.runtime.module.extension.internal.runtime.connectivity.basic.ListConnector;
-import org.mule.runtime.module.extension.internal.runtime.connectivity.basic.MapConnector;
-import org.mule.runtime.module.extension.internal.runtime.connectivity.basic.StringListConnector;
-import org.mule.runtime.module.extension.internal.runtime.connectivity.basic.TestConnector;
 import org.mule.runtime.module.extension.soap.internal.loader.SoapExtensionModelLoader;
 import org.mule.tck.junit4.AbstractMuleTestCase;
 import org.mule.tck.size.SmallTest;
@@ -44,17 +37,12 @@ import org.mule.test.metadata.extension.MetadataExtension;
 import org.mule.test.oauth.TestOAuthExtension;
 import org.mule.test.petstore.extension.PetStoreConnector;
 import org.mule.test.ram.RickAndMortyExtension;
-import org.mule.test.soap.extension.FootballSoapExtension;
 import org.mule.test.subtypes.extension.SubTypesMappingConnector;
 import org.mule.test.transactional.TransactionalExtension;
 import org.mule.test.typed.value.extension.extension.TypedValueExtension;
 import org.mule.test.values.extension.ValuesExtension;
 import org.mule.test.vegan.extension.VeganExtension;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.skyscreamer.jsonassert.JSONAssert;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -62,6 +50,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 @SmallTest
 @RunWith(Parameterized.class)
@@ -91,24 +85,6 @@ public class ExtensionModelJsonGeneratorTestCase extends AbstractMuleTestCase {
 
     final List<ExtensionJsonGeneratorTestUnit> extensions = Arrays.asList(
                                                                           new ExtensionJsonGeneratorTestUnit(javaLoader,
-                                                                                                             MapConnector.class,
-                                                                                                             "map.json"),
-                                                                          new ExtensionJsonGeneratorTestUnit(javaLoader,
-                                                                                                             ListConnector.class,
-                                                                                                             "list.json"),
-                                                                          new ExtensionJsonGeneratorTestUnit(javaLoader,
-                                                                                                             TestConnector.class,
-                                                                                                             "basic.json"),
-                                                                          new ExtensionJsonGeneratorTestUnit(javaLoader,
-                                                                                                             StringListConnector.class,
-                                                                                                             "string-list.json"),
-                                                                          new ExtensionJsonGeneratorTestUnit(javaLoader,
-                                                                                                             GlobalPojoConnector.class,
-                                                                                                             "global-pojo.json"),
-                                                                          new ExtensionJsonGeneratorTestUnit(javaLoader,
-                                                                                                             GlobalInnerPojoConnector.class,
-                                                                                                             "global-inner-pojo.json"),
-                                                                          new ExtensionJsonGeneratorTestUnit(javaLoader,
                                                                                                              VeganExtension.class,
                                                                                                              "vegan.json"),
                                                                           new ExtensionJsonGeneratorTestUnit(javaLoader,
@@ -129,9 +105,6 @@ public class ExtensionModelJsonGeneratorTestCase extends AbstractMuleTestCase {
                                                                           new ExtensionJsonGeneratorTestUnit(javaLoader,
                                                                                                              MarvelExtension.class,
                                                                                                              "marvel.json"),
-                                                                          new ExtensionJsonGeneratorTestUnit(soapLoader,
-                                                                                                             FootballSoapExtension.class,
-                                                                                                             "soap.json"),
                                                                           new ExtensionJsonGeneratorTestUnit(soapLoader,
                                                                                                              RickAndMortyExtension.class,
                                                                                                              "ram.json"),
